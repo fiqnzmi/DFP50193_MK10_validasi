@@ -1,50 +1,47 @@
-<!DOCTYPE html>
-<html>
+<?php
+session_start();
 
-<head>
-    <title>Keputusan Permohonan</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+$nama = $_POST['nama'];
+$matrik = $_POST['matrik'];
+$umur = $_POST['umur'];
+$program = $_POST['program'];
+$jantina = $_POST['jantina'];
+$alasan = $_POST['alasan'];
+$pengesahan = $_POST['pengesahan'];
 
-<body>
+$error = "";
 
-    <div class="container">
+if (empty($nama)) {
+    $error = "Nama pelajar belum diisi";
+} elseif (empty($matrik)) {
+    $error = "No matriks belum diisi";
+} elseif (empty($umur)) {
+    $error = "Umur belum diisi";
+} elseif (empty($program)) {
+    $error = "Sila pilih program pengajian";
+} elseif (empty($jantina)) {
+    $error = "Sila pilih jantina";
+} elseif (empty($alasan)) {
+    $error = "Alasan sokongan belum diisi";
+} elseif (strlen($alasan) < 25) {
+    $error = "Alasan mesti sekurang-kurangnya 25 aksara";
+} elseif (empty($pengesahan)) {
+    $error = "Sila tandakan pengesahan";
+}
 
-        <h2 class="title">Keputusan Permohonan</h2>
+if ($error != "") {
+    $_SESSION['error'] = $error;
+    header("Location: result.php");
+    exit();
+}
 
-        <?php
+$_SESSION['nama'] = $nama;
+$_SESSION['matrik'] = $matrik;
+$_SESSION['umur'] = $umur;
+$_SESSION['program'] = $program;
+$_SESSION['jantina'] = $jantina;
+$_SESSION['alasan'] = $alasan;
 
-        $nama = $_POST['nama'];
-        $matrik = $_POST['matrik'];
-        $umur = $_POST['umur'];
-        $program = $_POST['program'];
-        $jenis_laptop = $_POST['jenis_laptop'];
-        $tujuan = $_POST['tujuan'] ?? [];
-        $alasan = $_POST['alasan'];
-
-        if (empty($nama) || empty($matrik) || empty($umur) || empty($program) || empty($jenis_laptop) || empty($tujuan) || empty($alasan)) {
-            echo "<p class='error'>Ralat: Semua maklumat mesti diisi.</p>";
-        } else if (strlen($alasan) < 25) {
-            echo "<p class='error'>Ralat: Alasan mesti sekurang-kurangnya 25 aksara.</p>";
-        } else {
-            echo "<p class='success'>Permohonan berjaya dihantar.</p>";
-
-            echo "<p>Nama: $nama</p>";
-            echo "<p>No Matriks: $matrik</p>";
-            echo "<p>Umur: $umur</p>";
-            echo "<p>Program: $program</p>";
-            echo "<p>Jenis Laptop Diperlukan: $jenis_laptop</p>";
-            echo "<p>Tujuan Penggunaan: " . implode(', ', $tujuan) . "</p>";
-            echo "<p>Alasan: $alasan</p>";
-        }
-
-        ?>
-
-        <br>
-        <a href="index.php" class="link">Kembali ke Borang</a>
-
-    </div>
-
-</body>
-
-</html>
+header("Location: result.php");
+exit();
+?>

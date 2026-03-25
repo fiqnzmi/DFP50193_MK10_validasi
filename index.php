@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Borang Pinjaman Komputer</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borang Permohonan</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -16,7 +18,8 @@
         </div>
 
         <h2 class="title">Borang Permohonan Skim Pinjaman Komputer Riba</h2>
-        <form class="form-box" action="process.php" method="POST">
+
+        <form action="process.php" method="POST">
 
             <label class="label">Nama Pelajar</label>
             <input type="text" name="nama" class="input">
@@ -30,45 +33,26 @@
             <label class="label">Program Pengajian</label>
             <select name="program" class="input">
                 <option value="">-- Pilih Program --</option>
-                <option value="Diploma Teknologi Kreatif Digital Produksi Video">Diploma Teknologi Kreatif Digital
-                    Produksi Video</option>
-                <option value="Diploma Teknologi Kreatif Digital Seni">Diploma Teknologi Kreatif Digital Seni</option>
-                <option value="Diploma Perakaunan">Diploma Perakaunan</option>
-                <option value="Diploma Sains Kesetiausahaan">Diploma Sains Kesetiausahaan</option>
-                <option value="Diploma Pengajian Perniagaan">Diploma Pengajian Perniagaan</option>
-                <option value="Diploma Kejuruteraan Mekanikal">Diploma Kejuruteraan Mekanikal</option>
-                <option value="Diploma Perkhidmatan Makanan Amalan Halal">Diploma Perkhidmatan Makanan Amalan Halal
-                </option>
-                <option value="Diploma Pengurusan Resort">Diploma Pengurusan Resort</option>
-                <option value="Diploma Pengurusan Pelancongan">Diploma Pengurusan Pelancongan</option>
-                <option value="Diploma Pengurusan Acara">Diploma Pengurusan Acara</option>
-                <option value="Diploma Teknologi Maklumat">Diploma Teknologi Maklumat</option>
-                <option value="Diploma Kejuruteraan Elektronik (Telekomunikasi)">Diploma Kejuruteraan Elektronik
-                    (Telekomunikasi)</option>
-                <option value="Diploma Kejuruteraan Elektronik">Diploma Kejuruteraan Elektronik</option>
-                <option value="Diploma Kejuruteraan Elektronik (Komputer)">Diploma Kejuruteraan Elektronik (Komputer)
-                </option>
+                <option>Diploma Teknologi Maklumat</option>
+                <option>Diploma Perakaunan</option>
+                <option>Diploma Pengajian Perniagaan</option>
             </select>
 
-            <label class="label">Jenis Laptop Diperlukan</label>
+            <label class="label">Jantina</label>
+            <input type="radio" name="jantina" value="Lelaki" class="radio"> Lelaki
+            <input type="radio" name="jantina" value="Perempuan" class="radio"> Perempuan
 
-            <input type="radio" name="jenis_laptop" value="Standard (Windows)" class="radio"> Standard (Windows)
-            <input type="radio" name="jenis_laptop" value="Macbook" class="radio"> Macbook
-
-            <br><br>
-
-            <label class="label">Tujuan Penggunaan</label>
-
-            <input type="checkbox" name="tujuan[]" value="Assignment" class="check"> Assignment
-            <input type="checkbox" name="tujuan[]" value="Programming" class="check"> Programming
-            <input type="checkbox" name="tujuan[]" value="Design" class="check"> Design
-
-            <br><br>
-
-            <label class="label">Alasan Permohonan</label>
+            <label class="label">Alasan Sokongan (Minima 25 aksara)</label>
             <textarea name="alasan" class="textarea"></textarea>
 
-            <br><br>
+
+            <label class="checkbox-container">
+                Saya mengesahkan butiran maklumat ini adalah benar.
+                <input type="checkbox" name="pengesahan" value="setuju">
+                <span class="checkmark"></span>
+            </label>
+
+            <br>
 
             <button type="submit" class="btn-submit">Hantar</button>
             <button type="reset" class="btn-reset">Tetap Semula</button>
