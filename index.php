@@ -1,3 +1,9 @@
+<?php
+session_start();
+$inputs = $_SESSION['inputs'] ?? [];
+$errors = $_SESSION['errors'] ?? [];
+unset($_SESSION['errors']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,40 +25,73 @@
 
         <h2 class="title">Borang Permohonan Skim Pinjaman Komputer Riba</h2>
 
+        <?php if (!empty($errors)): ?>
+            <div class="error">
+                <?php foreach ($errors as $e): ?>
+                    <p><?php echo $e; ?></p>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+
         <form action="process.php" method="POST">
 
-            <label class="label">Nama Pelajar</label>
-            <input type="text" name="nama" class="input">
+            <div class="form-group">
+                <label class="label">Nama Pelajar</label>
+                <input type="text" name="nama" class="input"
+                    value="<?php echo htmlspecialchars($inputs['nama'] ?? ''); ?>">
+            </div>
 
-            <label class="label">No Matriks</label>
-            <input type="text" name="matrik" class="input">
+            <div class="form-group">
+                <label class="label">No Matriks</label>
+                <input type="text" name="matrik" class="input"
+                    value="<?php echo htmlspecialchars($inputs['matrik'] ?? ''); ?>">
+            </div>
 
-            <label class="label">Umur</label>
-            <input type="number" name="umur" class="input">
+            <div class="form-group">
+                <label class="label">No Telefon</label>
+                <input type="text" name="no_tel" class="input"
+                    value="<?php echo htmlspecialchars($inputs['no_tel'] ?? ''); ?>">
+            </div>
 
-            <label class="label">Program Pengajian</label>
-            <select name="program" class="input">
-                <option value="">-- Pilih Program --</option>
-                <option>Diploma Teknologi Maklumat</option>
-                <option>Diploma Perakaunan</option>
-                <option>Diploma Pengajian Perniagaan</option>
-            </select>
+            <div class="form-group">
+                <label class="label">Tarikh Mohon</label>
+                <input type="date" name="tarikh" class="input"
+                    value="<?php echo htmlspecialchars($inputs['tarikh'] ?? ''); ?>">
+            </div>
 
-            <label class="label">Jantina</label>
-            <input type="radio" name="jantina" value="Lelaki" class="radio"> Lelaki
-            <input type="radio" name="jantina" value="Perempuan" class="radio"> Perempuan
+            <div class="form-group">
+                <label class="label">Program Pengajian</label>
+                <select name="program" class="input">
+                    <option value="">-- Pilih Program --</option>
+                    <option <?php if (($inputs['program'] ?? '') == "Diploma Teknologi Maklumat") echo "selected"; ?>> Diploma Teknologi Maklumat</option>
+                    <option <?php if (($inputs['program'] ?? '') == "Diploma Perakaunan") echo "selected"; ?>> Diploma Perakaunan</option>
+                    <option <?php if (($inputs['program'] ?? '') == "Diploma Pengajian Perniagaan") echo "selected"; ?>> Diploma Pengajian Perniagaan</option>
+                </select>
+            </div>
 
-            <label class="label">Alasan Sokongan (Minima 25 aksara)</label>
-            <textarea name="alasan" class="textarea"></textarea>
+            <div class="form-group">
+                <label class="label">Jantina</label>
+                <input type="radio" name="jantina" value="Lelaki" <?php if (($inputs['jantina'] ?? '') == "Lelaki")
+                    echo "checked"; ?>> Lelaki
 
+                <input type="radio" name="jantina" value="Perempuan" <?php if (($inputs['jantina'] ?? '') == "Perempuan")
+                    echo "checked"; ?>> Perempuan
+            </div>
 
-            <label class="checkbox-container">
-                Saya mengesahkan butiran maklumat ini adalah benar.
-                <input type="checkbox" name="pengesahan" value="setuju">
-                <span class="checkmark"></span>
-            </label>
+            <div class="form-group">
+                <label class="label">Alasan Sokongan (Min 25 aksara)</label>
+                <textarea name="alasan"
+                    class="textarea"><?php echo htmlspecialchars($inputs['alasan'] ?? ''); ?></textarea>
+            </div>
 
-            <br>
+            <div class="form-group">
+                <label class="checkbox-container">
+                    Saya mengesahkan maklumat adalah benar
+                    <input type="checkbox" name="pengesahan" value="setuju" <?php if (isset($inputs['pengesahan']))
+                        echo "checked"; ?>>
+                    <span class="checkmark"></span>
+                </label>
+            </div>
 
             <button type="submit" class="btn-submit">Hantar</button>
             <button type="reset" class="btn-reset">Tetap Semula</button>

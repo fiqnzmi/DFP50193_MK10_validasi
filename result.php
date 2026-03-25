@@ -1,5 +1,12 @@
 <?php
 session_start();
+
+$data = $_SESSION['success_data'] ?? null;
+
+if (!$data) {
+    header("Location: index.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,23 +23,51 @@ session_start();
 
     <div class="container">
 
+        <div class="logo-container">
+            <img src="kpt.png" class="logo">
+            <img src="poly.png" class="logo">
+        </div>
+
         <h2 class="title">Keputusan Permohonan</h2>
 
-        <?php
-        if (isset($_SESSION['error'])) {
-            echo "<p class='error'>" . $_SESSION['error'] . "</p>";
-            echo "<a href='index.php' class='link'>Kembali</a>";
-            session_destroy();
-            exit();
-        }
-        ?>
+        <div class="results">
 
-        <p><b>Nama:</b> <?php echo $_SESSION['nama']; ?></p>
-        <p><b>No Matriks:</b> <?php echo $_SESSION['matrik']; ?></p>
-        <p><b>Umur:</b> <?php echo $_SESSION['umur']; ?></p>
-        <p><b>Program:</b> <?php echo $_SESSION['program']; ?></p>
-        <p><b>Jantina:</b> <?php echo $_SESSION['jantina']; ?></p>
-        <p><b>Alasan:</b> <?php echo $_SESSION['alasan']; ?></p>
+            <div class="result-item">
+                <span class="result-label">Nama</span>
+                <span class="result-value"><?php echo $_SESSION['nama']; ?></span>
+            </div>
+
+            <div class="result-item">
+                <span class="result-label">No Matriks</span>
+                <span class="result-value"><?php echo $_SESSION['matrik']; ?></span>
+            </div>
+
+            <div class="result-item">
+                <span class="result-label">No Telefon</span>
+                <span class="result-value"><?php echo $data['no_tel']; ?></span>
+            </div>
+
+            <div class="result-item">
+                <span class="result-label">Tarikh Mohon</span>
+                <span class="result-value"><?php echo date("d/m/Y", strtotime($_SESSION['tarikh'])); ?></span>
+            </div>
+
+            <div class="result-item">
+                <span class="result-label">Program</span>
+                <span class="result-value"><?php echo $_SESSION['program']; ?></span>
+            </div>
+
+            <div class="result-item">
+                <span class="result-label">Jantina</span>
+                <span class="result-value"><?php echo $_SESSION['jantina']; ?></span>
+            </div>
+
+            <div class="result-item">
+                <span class="result-label">Alasan</span>
+                <span class="result-value"><?php echo $_SESSION['alasan']; ?></span>
+            </div>
+
+        </div>
 
         <a href="index.php" class="link">Kembali ke Borang</a>
 

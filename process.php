@@ -1,47 +1,67 @@
 <?php
 session_start();
 
-$nama = $_POST['nama'];
-$matrik = $_POST['matrik'];
-$umur = $_POST['umur'];
-$program = $_POST['program'];
-$jantina = $_POST['jantina'];
-$alasan = $_POST['alasan'];
-$pengesahan = $_POST['pengesahan'];
+$_SESSION['inputs'] = $_POST;
 
-$error = "";
+$nama = trim($_POST['nama'] ?? '');
+$matrik = trim($_POST['matrik'] ?? '');
+$no_tel = trim($_POST['no_tel'] ?? '');
+$tarikh = trim($_POST['tarikh'] ?? '');
+$program = trim($_POST['program'] ?? '');
+$jantina = trim($_POST['jantina'] ?? '');
+$alasan = trim($_POST['alasan'] ?? '');
+$pengesahan = $_POST['pengesahan'] ?? '';
 
-if (empty($nama)) {
-    $error = "Nama pelajar belum diisi";
-} elseif (empty($matrik)) {
-    $error = "No matriks belum diisi";
-} elseif (empty($umur)) {
-    $error = "Umur belum diisi";
-} elseif (empty($program)) {
-    $error = "Sila pilih program pengajian";
-} elseif (empty($jantina)) {
-    $error = "Sila pilih jantina";
-} elseif (empty($alasan)) {
-    $error = "Alasan sokongan belum diisi";
+unset($_SESSION['errors']);
+unset($_SESSION['success_data']);
+
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
+    $_SESSION['errors'] = ["Sila hantar borang dahulu"];
+
+} elseif ($nama == '') {
+    $_SESSION['errors'] = ["Sila masukkan Nama"];
+
+} elseif ($matrik == '') {
+    $_SESSION['errors'] = ["Sila masukkan No Matriks"];
+
+} elseif ($no_tel == '') {
+    $_SESSION['errors'] = ["Sila masukkan No Telefon"];
+
+} elseif (!preg_match('/^[0-9]{10,11}$/', $no_tel)) {
+    $_SESSION['errors'] = ["No Telefon mesti 10 atau 11 digit"];
+
+} elseif ($tarikh == '') {
+    $_SESSION['errors'] = ["Sila masukkan Tarikh"];
+
+} elseif ($program == '') {
+    $_SESSION['errors'] = ["Sila pilih Program"];
+
+} elseif ($jantina == '') {
+    $_SESSION['errors'] = ["Sila pilih Jantina"];
+
+} elseif ($alasan == '') {
+    $_SESSION['errors'] = ["Sila masukkan Alasan"];
+
 } elseif (strlen($alasan) < 25) {
-    $error = "Alasan mesti sekurang-kurangnya 25 aksara";
-} elseif (empty($pengesahan)) {
-    $error = "Sila tandakan pengesahan";
-}
+    $_SESSION['errors'] = ["Alasan mesti sekurang-kurangnya 25 aksara"];
 
-if ($error != "") {
-    $_SESSION['error'] = $error;
+} elseif (empty($pengesahan)) {
+    $_SESSION['errors'] = ["Sila tandakan pengesahan"];
+
+} else {
+    $_SESSION['success_data'] = [
+        'nama' => htmlspecialchars($nama),
+        'matrik' => htmlspecialchars($matrik),
+        'no_tel' => htmlspecialchars($no_tel),
+        'tarikh' => htmlspecialchars($tarikh),
+        'program' => htmlspecialchars($program),
+        'jantina' => htmlspecialchars($jantina),
+        'alasan' => htmlspecialchars($alasan)
+    ];
+
     header("Location: result.php");
     exit();
 }
 
-$_SESSION['nama'] = $nama;
-$_SESSION['matrik'] = $matrik;
-$_SESSION['umur'] = $umur;
-$_SESSION['program'] = $program;
-$_SESSION['jantina'] = $jantina;
-$_SESSION['alasan'] = $alasan;
-
-header("Location: result.php");
+header("Location: index.php");
 exit();
-?>
